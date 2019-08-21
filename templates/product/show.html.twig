@@ -2,6 +2,13 @@
 
 {% block body %}
     <h1 style="text-align:center;" class="mb-5">Nos produits</h1>
+
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <table class="table" style="text-align:center;">
         <thead class="thead-dark">
             <tr>
@@ -13,16 +20,31 @@
             </tr>
         </thead>
         <tbody>
-            {% for product in products  %}
+            {% for key,product in products  %}
                 <tr>
+                    <td>{{ key + 1}}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.description }}</td>
                     <td>{{ product.price }}</td>
-                    <td><a href="#" class="btn btn-dark">Voir le produit</a></td>
+                    <td><a href="{{ path('oneProduct',{'slug':product.slug}) }}" class="btn btn-dark">Voir le produit</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <p class="mt-4" style="text-align:center;">Page {{ current_page }} sur {{ max_pages }}</p>
 
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="{{ path('product_list',{'page':current_page - 1}) }}">Previous</a></li>
+            {% for i in 1 .. max_pages%}
+            <li class="page-item
+                {% if i == current_page %}
+                    active
+                {% endif %}
+            "><a class="page-link" href="{{ path('product_list',{'page':i}) }}">{{ i }}
+            </a></li>
+            {% endfor %}
+            <li class="page-item"><a class="page-link" href="{{ path('product_list',{'page':current_page + 1}) }}">Next</a></li>
+        </ul>
+    </nav>
 {% endblock %}

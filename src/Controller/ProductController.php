@@ -97,4 +97,17 @@ class ProductController extends AbstractController
         // On s'assure de parcourir tout le tableau et seulement on affiche la 404
         throw $this->createNotFoundException();
     }
+
+    /**
+     * @Route("/create",name="create")
+     */
+    public function create()
+    {
+        $this->addFlash(
+            'notice',
+            'Le produit a bien été créé.'
+        );
+    
+        return $this->redirectToRoute('product_list');
+    }
 }
