@@ -18,7 +18,19 @@ class ProductController extends AbstractController
                            ['Nom'=>'iPhone XR','Slug'=>'iphone-xr','Description'=>'Un iPhone de 2018','Prix'=>'1099'],
                            ['Nom'=>'iPhone XS','Slug'=>'iphone-xs','Description'=>'Un iPhone de 2019','Prix'=>'1999']
         ];
-    }    
+    }
 
-
+    /**
+     * @Route("/random",name="random")
+     */
+    public function random()
+    {
+        $i = rand(0,count($this->products)-1);
+        $show = "";
+        foreach ($this->products[$i] as $product)
+        {
+            $show .= " / " .$product;
+        }
+        return new Response('<body>Produit aléatoire :'.$show.' </body>');
+    }
 }
