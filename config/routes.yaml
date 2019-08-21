@@ -3,6 +3,6 @@
 #    controller: App\Controller\DefaultController::index
 
 
-hello:
-  path: /hello
-  controller: App\Controller\WelcomeController::hello
+#hello:
+#  path: /hello
+#  controller: App\Controller\WelcomeController::hello
