@@ -11,6 +11,7 @@ cd C:\xampp\htdocs
 git clone https://github.com/Pierre-Gosselin/discover-symfony.git
 cd discover-symfony
 composer install
+php bin/console server:run
 ```
 
 Et voilà, tu peux travailler sur le projet
