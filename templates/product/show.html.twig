@@ -1,24 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <table class="table" style="text-align:center;">
-            <thead class="thead-dark">
+    <h1 style="text-align:center;" class="mb-5">Nos produits</h1>
+    <table class="table" style="text-align:center;">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Description</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products  %}
                 <tr>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Prix</th>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.price }}</td>
+                    <td><a href="#" class="btn btn-dark">Voir le produit</a></td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for product in products  %}
-                    <tr>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.description }}</td>
-                        <td>{{ product.price }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p class="mt-4" style="text-align:center;">Page {{ current_page }} sur {{ max_pages }}</p>
+
 {% endblock %}

@@ -16,7 +16,12 @@ class ProductController extends AbstractController
         // L'attribut $products est accessible sur toutes les routes...
         $this->products = [['name'=>'iPhone X','slug'=>'iphone-x','description'=>'Un iPhone de 2017','price'=>'999'],
                            ['name'=>'iPhone XR','slug'=>'iphone-xr','description'=>'Un iPhone de 2018','price'=>'1099'],
-                           ['name'=>'iPhone XS','slug'=>'iphone-xs','description'=>'Un iPhone de 2019','price'=>'1999']
+                           ['name'=>'iPhone XS','slug'=>'iphone-xs','description'=>'Un iPhone de 2019','price'=>'1999'],
+                           ['name'=>'iPhone','slug'=>'iphone','description'=>'Un iPhone de 2019','price'=>'1999'],
+                           ['name'=>'iPhone 2','slug'=>'iphone-2','description'=>'Un iPhone de 2019','price'=>'1999'],
+                           ['name'=>'iPhone 3g','slug'=>'iphone-3g','description'=>'Un iPhone de 2019','price'=>'1999'],
+                           ['name'=>'iPhone 4','slug'=>'iphone-4','description'=>'Un iPhone de 2019','price'=>'1999'],
+                           ['name'=>'iPhone 4s','slug'=>'iphone-4s','description'=>'Un iPhone de 2019','price'=>'1999']
         ];
     }
 
@@ -34,11 +39,44 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/product",name="product")
+     * @Route("/product.json")
      */
-    public function product()
+    public function api()
     {
-        return $this->render('product/show.html.twig',['products' => $this->products]);
+        // On renvoie le tableau des produits sous forme de json
+        return $this->json($this->products);
+    }
+
+    /**
+     * On peut passer à la ligne pour gagner en lisibilité.
+     *
+     * @Route(
+     *     "/product/{page}",
+     *     name="product_list",
+     *     requirements={"page"="\d+"}
+     * )
+     */
+    public function list($page = 1)
+    {
+        $products = $this->products;
+
+        $products = array_slice($products,($page-1)*2,2);
+        // Calculer le nombre de page maximal
+        $maxPages = ceil(count($this->products) /2);
+
+        // Si la page courante est inférieure au nombre maximun de page
+        // On renvoie une 404
+        if ($page > $maxPages)
+        {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render('product/show.html.twig',[
+            'products' => $products,
+            'current_page'=>$page,
+            'max_pages'=>$maxPages
+        ]);
+
     }
 
     /**
@@ -58,13 +96,5 @@ class ProductController extends AbstractController
         }
         // On s'assure de parcourir tout le tableau et seulement on affiche la 404
         throw $this->createNotFoundException();
-    }
-
-    /**
-     * @Route("/product/create",name="create")
-     */
-    public function create()
-    {
-
     }
 }
