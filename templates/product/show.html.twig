@@ -3,10 +3,13 @@
 {% block body %}
     <h1 style="text-align:center;" class="mb-5">Nos produits</h1>
 
-    {% for message in app.flashes('notice') %}
-        <div class="alert alert-notice">
-            {{ message }}
-        </div>
+    {# Affiche tous les messages flash de notre application #}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}">
+                {{ message }}
+            </div>
+        {% endfor %}
     {% endfor %}
 
     <table class="table" style="text-align:center;">

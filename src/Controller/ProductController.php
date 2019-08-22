@@ -99,9 +99,9 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/create/{slug}",name="create")
+     * @Route("/product/order/{slug}",name="order")
      */
-    public function create($slug)
+    public function order($slug)
     {
         
         // On va parcourir tous les produits
@@ -110,14 +110,28 @@ class ProductController extends AbstractController
             // Si le slug du produit correspond à celui de l'URL
             if ($product['slug'] === $slug)
             {
-                // Si un produit existe avec le slug, on retourne le template et on arrête le code
+                // Pour créer le message flash en session
                 $this->addFlash(
-                    'notice',
+                    'success',
                     'Nous avons bien pris en compte votre commande '.$product['name'].' de '.$product['price'].' €.'
                 );
             }
         }
-    
+
+        /* Autre méthode
+        // Chercher le produit concerné dans notre tableau
+        // le terme "use" du callback permet d'utiliser une variable définie en dehors de celui-ci
+        $product = array_filter($this->products,function($product) use ($slug){
+            // Cette fonction est appelée sur chaque élément du tableau
+            // On renvoie true si on veut garder l'élément dans le filtre qu'on applique
+            return $product['slug'] === $slug;
+        });
+        
+        // Réintialise les index du tableau fitlré
+        $product = array_values($product);
+        // On ne prend qu'un seul produit
+        $product = $product[0];
+        */
         return $this->redirectToRoute('product_list');
     }
 }
