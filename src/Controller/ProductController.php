@@ -99,14 +99,24 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/create",name="create")
+     * @Route("/create/{slug}",name="create")
      */
-    public function create()
+    public function create($slug)
     {
-        $this->addFlash(
-            'notice',
-            'Le produit a bien été créé.'
-        );
+        
+        // On va parcourir tous les produits
+        foreach ($this->products as $product)
+        {
+            // Si le slug du produit correspond à celui de l'URL
+            if ($product['slug'] === $slug)
+            {
+                // Si un produit existe avec le slug, on retourne le template et on arrête le code
+                $this->addFlash(
+                    'notice',
+                    'Nous avons bien pris en compte votre commande '.$product['name'].' de '.$product['price'].' €.'
+                );
+            }
+        }
     
         return $this->redirectToRoute('product_list');
     }

@@ -35,7 +35,11 @@
 
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="{{ path('product_list',{'page':current_page - 1}) }}">Previous</a></li>
+            {% set previous = path('product_list',{'page':1}) %}
+            {% if current_page > 1 %}
+                {% set previous = path('product_list',{'page':current_page - 1}) %}
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="{{ previous }}">Previous</a></li>
             {% for i in 1 .. max_pages%}
             <li class="page-item
                 {% if i == current_page %}
@@ -44,7 +48,11 @@
             "><a class="page-link" href="{{ path('product_list',{'page':i}) }}">{{ i }}
             </a></li>
             {% endfor %}
-            <li class="page-item"><a class="page-link" href="{{ path('product_list',{'page':current_page + 1}) }}">Next</a></li>
+            {% set next = path('product_list',{'page':max_pages}) %}
+            {% if current_page < max_pages %}
+                {% set next = path('product_list',{'page':current_page + 1}) %}
+            {% endif %}
+            <li class="page-item"><a class="page-link" href="{{ next }}">Next</a></li>
         </ul>
     </nav>
 {% endblock %}
