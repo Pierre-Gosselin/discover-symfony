@@ -2,11 +2,57 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+            <link rel="stylesheet" href="/css/app.css">
+        {% endblock %}
+        <title>Nos produits - Mon site</title>
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Shop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            {% set current_route = app.request.attributes.get('_route') %}
+            <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                <a class="nav-link
+                {% if current_route == "random" %}
+                    active
+                {% endif %}
+                " href="{{ path('random')}}">Accueil</a>
+                </li>
+                <li class="nav-item
+                {% if current_route == "product_list" %}
+                    active
+                {% endif %}
+                ">
+                <a class="nav-link " href="{{ path('product_list')}}">Produits</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </nav>
+
+        <div class="container mt-5 mb-5">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        </div>
+        {% block javascripts %}
+            <script src="/js/app.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        {% endblock %}
+        <footer class="bg-light py-5">
+            <div class="container">
+            <p class="text-center mb-0">Copyright &copy; {{"now"|date("Y")}}</p>
+            </div>
+        </footer>
     </body>
 </html>
