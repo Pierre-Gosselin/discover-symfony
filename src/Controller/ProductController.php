@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,6 +27,42 @@ class ProductController extends AbstractController
                            ['name'=>'iPhone 4','slug'=>'iphone-4','description'=>'Un iPhone de 2019','price'=>'1999'],
                            ['name'=>'iPhone 4s','slug'=>'iphone-4s','description'=>'Un iPhone de 2019','price'=>'1999']
         ];
+    }
+
+
+    /**
+     * @Route("/product/create", name="create")
+     */
+    public function create(Request $request)
+    {
+
+        // On crée un produit "vierge"
+        $product = new Product();
+
+        // Créer un formulaire dans le contrôleur
+        $form = $this->createFormBuilder($product)
+        ->add('name', TextType::class)
+        ->add('slug', TextType::class)
+        ->add('description', TextareaType::class)
+        ->add('price', TextType::class)
+        ->getForm();
+
+
+        // Traitement du formulaire
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            // getData() renvoie les données soumises
+            $product = $form->getData();
+            
+            array_push($this->products,$product);
+            return $this->redirectToRoute('product_list');
+        }
+
+        return $this->render('product/create.html.twig',
+        ['form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -103,7 +143,6 @@ class ProductController extends AbstractController
      */
     public function order($slug)
     {
-        
         // On va parcourir tous les produits
         foreach ($this->products as $product)
         {
@@ -134,4 +173,6 @@ class ProductController extends AbstractController
         */
         return $this->redirectToRoute('product_list');
     }
+
+
 }
