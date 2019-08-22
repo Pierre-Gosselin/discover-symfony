@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -40,13 +41,7 @@ class ProductController extends AbstractController
         $product = new Product();
 
         // Créer un formulaire dans le contrôleur
-        $form = $this->createFormBuilder($product)
-        ->add('name', TextType::class)
-        ->add('slug', TextType::class)
-        ->add('description', TextareaType::class)
-        ->add('price', TextType::class)
-        ->getForm();
-
+        $form= $this->createForm(ProductType::class, $product);
 
         // Traitement du formulaire
         $form->handleRequest($request);
@@ -54,10 +49,7 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             // getData() renvoie les données soumises
-            $product = $form->getData();
-            
-            array_push($this->products,$product);
-            return $this->redirectToRoute('product_list');
+            dump($form->getData());
         }
 
         return $this->render('product/create.html.twig',
