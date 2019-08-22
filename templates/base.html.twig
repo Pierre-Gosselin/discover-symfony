@@ -18,14 +18,18 @@
             <span class="navbar-toggler-icon"></span>
             </button>
 
+            {% set current_route = app.request.attributes.get('_route') %}
             <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                <a class="nav-link" href="{{ path('helloAll')}}">Accueil</a>
+                <a class="nav-link
+                {% if current_route == "random" %}
+                    active
+                {% endif %}
+                " href="{{ path('random')}}">Accueil</a>
                 </li>
                 <li class="nav-item
-                
-                {% if app.request.get('_route') == "product_list" %}
+                {% if current_route == "product_list" %}
                     active
                 {% endif %}
                 ">

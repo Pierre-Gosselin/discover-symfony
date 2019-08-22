@@ -41,12 +41,12 @@
             {% endif %}
             <li class="page-item"><a class="page-link" href="{{ previous }}">Previous</a></li>
             {% for i in 1 .. max_pages%}
-            <li class="page-item
-                {% if i == current_page %}
-                    active
-                {% endif %}
-            "><a class="page-link" href="{{ path('product_list',{'page':i}) }}">{{ i }}
-            </a></li>
+                <li class="page-item
+                    {% if i == current_page %}
+                        active
+                    {% endif %}
+                "><a class="page-link" href="{{ path('product_list',{'page':i}) }}">{{ i }}
+                </a></li>
             {% endfor %}
             {% set next = path('product_list',{'page':max_pages}) %}
             {% if current_page < max_pages %}
